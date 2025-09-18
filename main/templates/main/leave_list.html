@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>My Leave Applications</h2>
+    <a href="{% url 'leave_create' %}">Apply for Leave</a> |
+    <a href="{% url 'logout' %}">Logout</a>
+    <hr/>
+
+    <ul>
+      {% for leave in leaves %}
+        <li>
+          <strong>{{ leave.get_leave_type_display }}</strong>
+          ({{ leave.start_date }} → {{ leave.end_date }}) —
+          Status: {{ leave.get_status_display }} —
+          Applied: {{ leave.applied_on|date:"Y-m-d H:i" }}
+          <br/>
+          <small>{{ leave.reason|linebreaksbr }}</small>
+          <br/>
+          <a href="{% url 'leave_update' leave.pk %}">Edit</a> |
+          <a href="{% url 'leave_delete' leave.pk %}">Delete</a>
+        </li>
+      {% empty %}
+        <li>No leave applications yet.</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
